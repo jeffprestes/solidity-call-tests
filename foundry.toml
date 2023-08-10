@@ -4,6 +4,9 @@ src = 'src'
 out = 'out'
 libs = ['lib']
 
+fs_permissions = [{ access = "read-write", path = "./"}]
+
+[profile.network.mumbai] # network name, used to identify the chain in etherscan
 mumbai = "${RPC_URL}"
 
 [profile.polygonscan]

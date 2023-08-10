@@ -14,10 +14,18 @@ contract Accountz {
 
   function tokenData() external view returns (string memory, string memory, uint256) {
     return (mytoken.name(), mytoken.symbol(), mytoken.balanceOf(address(this)));
-  }
+  }  
 
-  function transfer(address _beneficiary, uint256 _amount) external {
-    mytoken.transfer(_beneficiary, _amount);
+  receive() external payable {}
+
+  function call(address target, uint256 value, bytes memory data) external returns (bool, bytes memory) {
+    (bool success, bytes memory result) = target.call{value : value}(data);
+    if (!success) {
+        assembly {
+            revert(add(result, 32), mload(result))
+        }
+    }
+    return (success, result);
   }
 
 }

@@ -8,6 +8,7 @@ import "../src/Account.sol";
 
 
 // forge script script/Deploy.s.sol:DeployScript --broadcast --verify --rpc-url ${RPC_URL} --etherscan-api-key ${POLYGONSCAN_API_KEY} -vvvv
+// forge script script/Deploy.s.sol:DeployScript --broadcast --rpc-url ${RPC_URL}
 // token: 0xA15927b9f8a5f3eBc398447ef7E6C5e16d15F7eB - account: 0xb54a7E7B4d65BE4ee680CAf64d039946b4865Bdd - entryPoint: 0xc1d475566242bc51202669ae2618f363db759880
 contract DeployScript is Script {
 
@@ -25,6 +26,7 @@ contract DeployScript is Script {
   function deployEntryPoint() public {
     entryPoint = new EntryPointLite();
     entryPoint.changeAccount(accountAddress);
+    entryPoint.changeTokenAddress(tokenAddress);
   }
 
   function deployAccount() public {
@@ -40,7 +42,9 @@ contract DeployScript is Script {
     deployAccount();
     deployEntryPoint();
     vm.stopBroadcast();
+    vm.writeFile("./token-address.txt", vm.toString(tokenAddress));
+    vm.writeFile("./account-address.txt", vm.toString(accountAddress));
+    vm.writeFile("./entrypoint-address.txt", vm.toString(address(entryPoint)));
     console.log("token: %s - account: %s - entryPoint: %s", tokenAddress, accountAddress, address(entryPoint));
-
   }
 }
