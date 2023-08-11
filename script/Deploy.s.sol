@@ -7,15 +7,14 @@ import "../src/EntryPoint.sol";
 import "../src/Account.sol";
 
 
-// forge script script/Deploy.s.sol:DeployScript --broadcast --verify --rpc-url ${RPC_URL} --etherscan-api-key ${POLYGONSCAN_API_KEY} -vvvv
+// forge script script/Deploy.s.sol:DeployScript --broadcast --verify --rpc-url ${RPC_URL} --etherscan-api-key ${ETHERSCAN_API_KEY} -vvvv
 // forge script script/Deploy.s.sol:DeployScript --broadcast --rpc-url ${RPC_URL}
-// token: 0xA15927b9f8a5f3eBc398447ef7E6C5e16d15F7eB - account: 0xb54a7E7B4d65BE4ee680CAf64d039946b4865Bdd - entryPoint: 0xc1d475566242bc51202669ae2618f363db759880
 contract DeployScript is Script {
 
   AAToken public token;
   address public tokenAddress;
   Accountz public account;
-  address public accountAddress;
+  address payable public accountAddress;
   EntryPointLite public entryPoint;
 
   function deployToken() public {
@@ -31,7 +30,7 @@ contract DeployScript is Script {
 
   function deployAccount() public {
     account = new Accountz(tokenAddress);
-    accountAddress = address(account);
+    accountAddress = payable(address(account));
     token.mint(accountAddress, 1000 * 10 ** token.decimals());
   }
 

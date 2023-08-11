@@ -5,14 +5,14 @@ import "./Account.sol";
 
 contract EntryPointLite {
 
-  address public accountAddress;
+  address payable public accountAddress;
   Accountz public account;
   address public tokenAddress;
 
-  function changeAccount(address _accountAddress) external returns(bool) {
+  function changeAccount(address payable _accountAddress) external returns(bool) {
     require(_accountAddress!= address(this), "Cannot set self as new entry point");
     accountAddress = _accountAddress;
-    account = Accountz(account);
+    account = Accountz(accountAddress);
     return true;
   }
 
@@ -22,7 +22,7 @@ contract EntryPointLite {
     return true;
   }
 
-  function call(bytes calldata _param) external returns (bool) {
+  function call(bytes memory _param) external returns (bool) {
     (bool success, ) = account.call(tokenAddress, 0, _param);
     return success;
   }
