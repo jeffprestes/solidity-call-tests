@@ -8,7 +8,7 @@ import "../src/Account.sol";
 import "./Utils.sol";
 
 
-// forge script script/LoadAccount.s.sol:LoadAccount --broadcast --rpc-url ${RPC_URL}
+// forge script script/LoadAccount.s.sol:LoadAccount --broadcast --rpc-url ${RPC_URL} -vvvv
 contract LoadAccount is Script {
 
   AAToken public token;
