@@ -19,8 +19,11 @@ contract LoadAccount is Script {
   address public entryPointAddress;
 
   function run() external {
+    uint256 deployerPrivateKey = vm.envUint("PRIVATE_KEY");
+    vm.startBroadcast(deployerPrivateKey);
     setUp();
     bool success = entryPoint.call(hex"a9059cbb0000000000000000000000005f8b6a05dd8c9b71242b7fa3fdbe675f6723ead80000000000000000000000000000000000000000000000000de0b6b3a7640000");
+    vm.stopBroadcast();
     console.log("OK? %s", success);
   }
 
